@@ -17,7 +17,6 @@ stages:
   - build
   - test
   - deploy
-  - timeout
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
@@ -46,6 +45,19 @@ deploy-job:      # This job runs in the deploy stage.
     - echo "Application successfully deployed."
 
 timeout-job:
-  stage: timeout
+  stage: deploy
   script:
-  - sleep 120
+  - sleep 4000
+
+fail-job:
+  stage: deploy
+  script:
+  - sleep 3
+  - exit 1
+
+allow-fail-job:
+  stage: deploy
+  allow_failure: true
+  script:
+  - sleep 6
+  - exit 1
